@@ -348,6 +348,73 @@ setInterval(() => {
 const canvas = document.getElementById("estrelas");
 const ctx = canvas.getContext("2d");
 
+let constelacaoBrilho = 0.15;
+
+function obterPontosConstelacao() {
+
+  const pontos = [];
+  const numPontos = 22;
+  const centroX = canvas.width / 2;
+  const centroY = canvas.height * 0.25;
+  const escala = Math.min(canvas.width, canvas.height) * 0.09;
+
+  for (let n = 0; n < numPontos; n++) {
+
+    const t = (n / numPontos) * Math.PI * 2;
+
+    const xBase = 16 * Math.pow(Math.sin(t), 3);
+    const yBase = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+
+    pontos.push({
+      x: centroX + (xBase * escala) / 16,
+      y: centroY + (yBase * escala) / 16
+    });
+
+  }
+
+  return pontos;
+
+}
+
+function desenharConstelacao() {
+
+  const modoCinema = document.body.classList.contains("modo-cinematico");
+  const alvoBrilho = modoCinema ? 1 : 0.15;
+
+  constelacaoBrilho += (alvoBrilho - constelacaoBrilho) * 0.04;
+
+  const pontos = obterPontosConstelacao();
+
+  // linhas conectando os pontos, formando o contorno do coração
+  ctx.beginPath();
+
+  pontos.forEach((p, idx) => {
+
+    if (idx === 0) {
+      ctx.moveTo(p.x, p.y);
+    } else {
+      ctx.lineTo(p.x, p.y);
+    }
+
+  });
+
+  ctx.closePath();
+  ctx.strokeStyle = `rgba(232,196,160,${constelacaoBrilho * 0.5})`;
+  ctx.lineWidth = 0.6 + constelacaoBrilho * 0.8;
+  ctx.stroke();
+
+  // pontinhos de estrela em cada vértice do coração
+  pontos.forEach(p => {
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 1 + constelacaoBrilho * 1.6, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(232,196,160,${0.3 + constelacaoBrilho * 0.7})`;
+    ctx.fill();
+
+  });
+
+}
+
 function ajustarCanvas() {
 
   canvas.width = window.innerWidth;
@@ -428,6 +495,8 @@ function desenharEstrelas() {
 
   // Remove estrelas cadentes que já saíram da tela (sem bug de splice em forEach)
   estrelasCadentes = estrelasCadentes.filter(s => s.y <= canvas.height);
+
+  desenharConstelacao();
 
   requestAnimationFrame(desenharEstrelas);
 
@@ -563,6 +632,17 @@ envelope.addEventListener("click", () => {
 
   tocarSomAbrirEnvelope();
 
+  // reseta a rolagem e força o observer a recalcular (corrige a carta "em branco" ao reabrir)
+  cartaPapel.scrollTop = 0;
+
+  paragrafosCarta.forEach(p => {
+
+    p.classList.remove("visivel");
+    observerCarta.unobserve(p);
+    observerCarta.observe(p);
+
+  });
+
   setTimeout(() => {
 
     envelope.classList.add("escondido");
@@ -602,6 +682,59 @@ btnFechar.addEventListener("click", () => {
 
 });
 
+/* ===== MODO CINEMATOGRAFICO (ao chegar na carta, escurece as estrelas e destaca o envelope) ===== */
+
+const observerCinema = new IntersectionObserver((entradas) => {
+
+  entradas.forEach(entrada => {
+
+    if (entrada.isIntersecting) {
+
+      document.body.classList.add("modo-cinematico");
+      envelope.classList.add("destaque-cinema");
+
+    } else {
+
+      document.body.classList.remove("modo-cinematico");
+      envelope.classList.remove("destaque-cinema");
+
+    }
+
+  });
+
+}, {
+  threshold: 0.45
+});
+
+observerCinema.observe(envelope);
+
+/* ===== ABRA QUANDO... (mini envelopes) ===== */
+
+const miniEnvelopes = document.querySelectorAll(".mini-envelope");
+const miniCartaCard = document.getElementById("miniCartaCard");
+const miniCartaTexto = document.getElementById("miniCartaTexto");
+const btnFecharMini = document.getElementById("btnFecharMini");
+
+miniEnvelopes.forEach(env => {
+
+  env.addEventListener("click", () => {
+
+    miniCartaTexto.textContent = env.dataset.mensagem || "";
+
+    tocarSomAbrirEnvelope();
+
+    miniCartaCard.classList.add("visivel");
+
+  });
+
+});
+
+btnFecharMini.addEventListener("click", () => {
+
+  miniCartaCard.classList.remove("visivel");
+
+});
+
 /* ===== REVEAL AO SCROLLAR (site inteiro) ===== */
 
 const elementosReveal = document.querySelectorAll(".reveal");
@@ -624,3 +757,172 @@ const observerScroll = new IntersectionObserver((entradas) => {
 });
 
 elementosReveal.forEach(el => observerScroll.observe(el));
+
+/* ===== REPLAY (voltar ao começo e reiniciar as animações) ===== */
+
+const btnReplay = document.getElementById("btnReplay");
+
+btnReplay.addEventListener("click", () => {
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // reinicia o reveal de todos os elementos
+  elementosReveal.forEach(el => {
+
+    el.classList.remove("visivel");
+    observerScroll.observe(el);
+
+  });
+
+  // reinicia o envelope principal e a carta
+  envelope.classList.remove("aberto", "escondido");
+  cartaCard.classList.remove("visivel");
+  paragrafosCarta.forEach(p => p.classList.remove("visivel"));
+
+  // reinicia os mini envelopes
+  miniCartaCard.classList.remove("visivel");
+
+  // volta pra primeira foto e reinicia as stories
+  fotos[fotoAtual].classList.remove("ativa");
+  fotoAtual = 0;
+  fotos[fotoAtual].classList.add("ativa");
+  atualizarLegenda();
+  progressoStory = 0;
+  resetarBarras();
+  iniciarIntervalo();
+
+  // dispara os corações de novo, de brinde
+  criarPetalasCaindo(16);
+
+  // reinicia a raspadinha
+  inicializarRaspadinha();
+
+});
+
+/* ===== RASPADINHA DIGITAL ===== */
+
+const raspadinhaCanvas = document.getElementById("raspadinhaCanvas");
+const raspadinhaCtx = raspadinhaCanvas.getContext("2d");
+
+let raspadinhaRevelada = false;
+let raspando = false;
+let contadorRaspadas = 0;
+
+function inicializarRaspadinha() {
+
+  const rect = raspadinhaCanvas.parentElement.getBoundingClientRect();
+
+  raspadinhaCanvas.width = rect.width;
+  raspadinhaCanvas.height = rect.height;
+
+  raspadinhaCanvas.style.opacity = "1";
+  raspadinhaCanvas.style.display = "block";
+  raspadinhaRevelada = false;
+
+  raspadinhaCtx.globalCompositeOperation = "source-over";
+  raspadinhaCtx.fillStyle = "#9a9690";
+  raspadinhaCtx.fillRect(0, 0, raspadinhaCanvas.width, raspadinhaCanvas.height);
+
+  raspadinhaCtx.fillStyle = "#f2e9dc";
+  raspadinhaCtx.font = "16px Georgia, serif";
+  raspadinhaCtx.textAlign = "center";
+  raspadinhaCtx.textBaseline = "middle";
+  raspadinhaCtx.fillText("Raspe aqui ❤️", raspadinhaCanvas.width / 2, raspadinhaCanvas.height / 2);
+
+}
+
+inicializarRaspadinha();
+window.addEventListener("resize", inicializarRaspadinha);
+
+function posicaoRaspadinha(e) {
+
+  const rect = raspadinhaCanvas.getBoundingClientRect();
+
+  return {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top
+  };
+
+}
+
+function raspar(x, y) {
+
+  raspadinhaCtx.globalCompositeOperation = "destination-out";
+  raspadinhaCtx.beginPath();
+  raspadinhaCtx.arc(x, y, 22, 0, Math.PI * 2);
+  raspadinhaCtx.fill();
+
+}
+
+function verificarProgressoRaspadinha() {
+
+  if (raspadinhaRevelada) return;
+
+  const dados = raspadinhaCtx.getImageData(0, 0, raspadinhaCanvas.width, raspadinhaCanvas.height).data;
+
+  let apagados = 0;
+  let amostras = 0;
+
+  for (let p = 3; p < dados.length; p += 4 * 15) {
+
+    amostras++;
+
+    if (dados[p] < 40) {
+      apagados++;
+    }
+
+  }
+
+  if (amostras > 0 && (apagados / amostras) > 0.5) {
+
+    raspadinhaRevelada = true;
+
+    raspadinhaCanvas.style.transition = "opacity 0.6s ease";
+    raspadinhaCanvas.style.opacity = "0";
+
+    setTimeout(() => {
+
+      raspadinhaCanvas.style.display = "none";
+
+    }, 650);
+
+  }
+
+}
+
+raspadinhaCanvas.addEventListener("pointerdown", (e) => {
+
+  raspando = true;
+
+  const pos = posicaoRaspadinha(e);
+  raspar(pos.x, pos.y);
+
+});
+
+raspadinhaCanvas.addEventListener("pointermove", (e) => {
+
+  if (!raspando) return;
+
+  const pos = posicaoRaspadinha(e);
+  raspar(pos.x, pos.y);
+
+  contadorRaspadas++;
+
+  if (contadorRaspadas % 8 === 0) {
+
+    verificarProgressoRaspadinha();
+
+  }
+
+});
+
+window.addEventListener("pointerup", () => {
+
+  if (raspando) {
+
+    raspando = false;
+    verificarProgressoRaspadinha();
+
+  }
+
+});
