@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta name="theme-color" content="#0f0c29">
+
+<title>Nosso Contador ❤️</title>
+
+<!-- PREVIEW AO COMPARTILHAR -->
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nosso Contador ❤️">
+<meta property="og:description"
+      content="Um cantinho só nosso, com contador, fotos e uma carta especial.">
+<meta property="og:image" content="foto3.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nosso Contador ❤️">
+<meta name="twitter:description"
+      content="Um cantinho só nosso, com contador, fotos e uma carta especial.">
+<meta name="twitter:image" content="foto3.jpg">
+
+
+<!-- GOOGLE FONTS -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet">
+
+
+<!-- CSS -->
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+<!-- FUNDO ESTRELADO -->
+
+<canvas id="estrelas"></canvas>
+
+
+<!-- DIVISOR FLORAL -->
+
+<svg style="display:none" aria-hidden="true">
+
+  <symbol
+    id="flor-divisor"
+    viewBox="0 0 400 60"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.1"
+    stroke-linecap="round"
+  >
+
+    <!-- haste esquerda -->
+
+    <path d="M200,30 C165,22 130,38 95,30 C75,25 55,32 38,28"/>
+
+    <!-- folhas haste esquerda -->
+
+    <ellipse
+      cx="150"
+      cy="24"
+      rx="11"
+      ry="4.5"
+      transform="rotate(-18 150 24)"
+    />
+
+    <ellipse
+      cx="118"
+      cy="35"
+      rx="12"
+      ry="5"
+      transform="rotate(16 118 35)"
+    />
+
+    <ellipse
+      cx="82"
+      cy="27"
+      rx="10"
+      ry="4"
+      transform="rotate(-12 82 27)"
+    />
+
+    <ellipse
+      cx="55"
+      cy="31"
+      rx="8"
+      ry="3.5"
+      transform="rotate(10 55 31)"
+    />
+
+
+    <!-- florzinha esquerda -->
+
+    <g transform="translate(30,28)">
+
+      <ellipse rx="7" ry="3.2"/>
+
+      <ellipse
+        rx="7"
+        ry="3.2"
+        transform="rotate(72)"
+      />
+
+      <ellipse
+        rx="7"
+        ry="3.2"
+        transform="rotate(144)"
+      />
+
+      <circle
+        r="1.6"
+        fill="currentColor"
+        stroke="none"
+      />
+
+    </g>
+
+
+    <!-- haste direita -->
+
+    <path d="M200,30 C235,22 270,38 305,30 C325,25 345,32 362,28"/>
+
+
+    <ellipse
+      cx="250"
+      cy="24"
+      rx="11"
+      ry="4.5"
+      transform="rotate(18 250 24)"
+    />
+
+    <ellipse
+      cx="282"
+      cy="35"
+      rx="12"
+      ry="5"
+      transform="rotate(-16 282 35)"
+    />
+
+    <ellipse
+      cx="318"
+      cy="27"
+      rx="10"
+      ry="4"
+      transform="rotate(12 318 27)"
+    />
+
+    <ellipse
+      cx="345"
+      cy="31"
+      rx="8"
+      ry="3.5"
+      transform="rotate(-10 345 31)"
+    />
+
+
+    <!-- florzinha direita -->
+
+    <g transform="translate(370,28)">
+
+      <ellipse rx="7" ry="3.2"/>
+
+      <ellipse
+        rx="7"
+        ry="3.2"
+        transform="rotate(72)"
+      />
+
+      <ellipse
+        rx="7"
+        ry="3.2"
+        transform="rotate(144)"
+      />
+
+      <circle
+        r="1.6"
+        fill="currentColor"
+        stroke="none"
+      />
+
+    </g>
+
+
+    <!-- flor central -->
+
+    <g transform="translate(200,30)">
+
+      <ellipse rx="15" ry="7"/>
+
+      <ellipse
+        rx="15"
+        ry="7"
+        transform="rotate(72)"
+      />
+
+      <ellipse
+        rx="15"
+        ry="7"
+        transform="rotate(144)"
+      />
+
+      <ellipse
+        rx="15"
+        ry="7"
+        transform="rotate(216)"
+      />
+
+      <ellipse
+        rx="15"
+        ry="7"
+        transform="rotate(288)"
+      />
+
+      <circle
+        r="2.4"
+        fill="currentColor"
+        stroke="none"
+      />
+
+    </g>
+
+  </symbol>
+
+</svg>
+
+
+<!-- TELA DE ABERTURA -->
+
+<div id="telaAbertura">
+
+  <div class="abertura-conteudo">
+
+    <div class="abertura-titulo">
+      Para você ❤️
+    </div>
+
+    <p class="abertura-sub">
+      Toque para abrir sua surpresa
+    </p>
+
+    <button
+      id="btnAbrirSite"
+      class="btn-abrir"
+    >
+      Toque para começar
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- BOTÃO MUTAR -->
+
+<button
+  id="btnMutar"
+  class="btn-mutar"
+  aria-label="Mutar música"
+>
+  🔊
+</button>
+
+
+<!-- TÍTULO -->
+
+<h1 class="titulo reveal">
+  Nosso Contador ❤️
+</h1>
+
+
+<svg
+  class="divisor-flor reveal"
+  aria-hidden="true"
+>
+  <use href="#flor-divisor"></use>
+</svg>
+
+
+<!-- DECLARAÇÃO -->
+
+<p
+  class="declaracao"
+  id="texto-amor"
+></p>
+
+
+<svg
+  class="divisor-flor reveal"
+  aria-hidden="true"
+>
+  <use href="#flor-divisor"></use>
+</svg>
+
+
+<!-- MARCOS -->
+
+<h2 class="marcos-titulo reveal">
+  Desde que nos conhecemos
+</h2>
+
+
+<!-- CONTADOR 1 -->
+
+<div id="contador">
+
+  <div class="bloco reveal">
+
+    <div
+      id="dias"
+      class="numero"
+    >
+      0
+    </div>
+
+    <span>Dias</span>
+
+  </div>
+
+
+  <div class="bloco reveal">
+
+    <div
+      id="horas"
+      class="numero"
+    >
+      0
+    </div>
+
+    <span>Horas</span>
+
+  </div>
+
+
+  <div class="bloco reveal">
+
+    <div
+      id="minutos"
+      class="numero"
+    >
+      0
+    </div>
+
+    <span>Min</span>
+
+  </div>
+
+
+  <div class="bloco reveal">
+
+    <div
+      id="segundos"
+      class="numero"
+    >
+      0
+    </div>
+
+    <span>Seg</span>
+
+  </div>
+
+</div>
+
+
+<svg
+  class="divisor-flor reveal"
+  aria-hidden="true"
+>
+  <use href="#flor-divisor"></use>
+</svg>
+
+
+<!-- LINHA DO TEMPO -->
+
+<div class="marcos">
+
+  <h2 class="marcos-titulo reveal">
+    Nossos marcos
+  </h2>
+
+
+  <div class="marco-item reveal">
+
+    <div class="marco-data">
+      24 de junho de 2026
+    </div>
+
+    <div class="marco-desc">
+      Nos conhecemos
+    </div>
+
+  </div>
+
+
+  <div class="marco-item reveal">
+
+    <div class="marco-data">
+      14 de setembro de 2026 · 23:14
+    </div>
+
+    <div class="marco-desc">
+      Primeiro "eu te amo"
+    </div>
+
+  </div>
+
+</div>
+
+
+<svg
+  class="divisor-flor reveal"
+  aria-hidden="true"
+>
+  <use href="#flor-divisor"></use>
+</svg>
+
+
+<!-- CONTADOR DO PRIMEIRO EU TE AMO -->
+
+<h2 class="marcos-titulo reveal">
+  Desde o primeiro "eu te amo"
+</h2>
+
+
+<div id="contador2">
+
+  <div class="bloco reveal">
+
+    <div
+      id="dias2"
+      class="numero"
+    >
+      0
+    </div>
+
+    <span>Dias</span>
+
+  </div>
+
+
+  <div class="bloco reveal">
+
+    <div
+      id="horas2"
+      class="numero"
+    >
+      0
+    </div>
+
+    <span>Horas</span>
+
+  </div>
+
+
+  <div class="bloco reveal">
+
+    <div
+      id="minutos2"
+      class="numero"
+    >
+      0
+    </div>
+
+    <span>Min</span>
+
+  </div>
+
+
+  <div class="bloco reveal">
+
+    <div
+      id="segundos2"
+      class="numero"
+    >
+      0
+    </div>
+
+    <span>Seg</span>
+
+  </div>
+
+</div>
+
+
+<svg
+  class="divisor-flor reveal"
+  aria-hidden="true"
+>
+  <use href="#flor-divisor"></use>
+</svg>
+
+
+<!-- STORIES -->
+
+<div class="stories reveal">
+
+  <div class="story-bar">
+    <div class="story-progress"></div>
+  </div>
+
+  <div class="story-bar">
+    <div class="story-progress"></div>
+  </div>
+
+  <div class="story-bar">
+    <div class="story-progress"></div>
+  </div>
+
+</div>
+
+
+<!-- FOTOS -->
+
+<div class="foto-container reveal">
+
+  <img
+    src="foto.jpg"
+    class="foto ativa"
+    alt="Foto especial"
+    data-legenda="Aquela vez que você usou minha blusa do terceirão"
+  >
+
+  <img
+    src="foto2.jpg"
+    class="foto"
+    alt="Foto especial"
+    data-legenda="Minha foto favorita nossa"
+  >
+
+  <img
+    src="foto3.jpg"
+    class="foto"
+    alt="Foto especial"
+    data-legenda="Aquele dia bobo com o filtro de bochechão"
+  >
+
+  <div
+    class="legenda-foto"
+    id="legendaFoto"
+  ></div>
+
+</div>
+
+
+<svg
+  class="divisor-flor reveal"
+  aria-hidden="true"
+>
+  <use href="#flor-divisor"></use>
+</svg>
+
+
+<!-- PLAYER -->
+
+<div class="player reveal">
+
+  <h3>
+    Nossa música 🎵
+  </h3>
+
+
+  <img
+    src="capa.jpg"
+    class="capa"
+    alt="Capa da música"
+  >
+
+
+  <audio
+    id="musica"
+    loop
+    playsinline
+    preload="auto"
+  >
+
+    <source
+      src="musica.mp3"
+      type="audio/mp3"
+    >
+
+  </audio>
+
+
+  <div class="barra">
+
+    <div class="progresso"></div>
+
+  </div>
+
+</div>
+
+
+<svg
+  class="divisor-flor reveal"
+  aria-hidden="true"
+>
+  <use href="#flor-divisor"></use>
+</svg>
+
+
+<!-- MODO CARTA -->
+
+<div
+  class="envelope-wrap reveal"
+  id="envelope"
+>
+
+  <div class="carta-dentro"></div>
+
+  <div class="envelope-flap"></div>
+
+  <div class="envelope-corpo"></div>
+
+  <div class="selo">
+    ❤️
+  </div>
+
+  <div class="envelope-dica">
+    toque para abrir
+  </div>
+
+</div>
+
+
+<!-- CARTA -->
+
+<div
+  class="carta-card"
+  id="cartaCard"
+>
+
+  <div
+    class="carta-papel"
+    id="cartaPapel"
+  >
+
+    <button
+      class="btn-fechar"
+      id="btnFechar"
+    >
+      ✕
+    </button>
+
+
+    <div class="carta-titulo">
+      Para você
+    </div>
+
+
+    <p class="carta-paragrafo">
+      Desde que te conheci, aprendi a contar o tempo de um jeito diferente.
+    </p>
+
+
+    <p class="carta-paragrafo">
+      Cada segundo longe de você parece uma eternidade, e cada segundo perto passa rápido demais.
+    </p>
+
+
+    <p class="carta-paragrafo">
+      Queria que você soubesse o quanto esse tempo ao seu lado tem valido a pena, e o quanto ainda quero viver ao seu lado.
+    </p>
+
+
+    <p class="carta-paragrafo">
+      Obrigado por existir e por deixar eu fazer parte da sua história. 💖
+    </p>
+
+
+    <div class="carta-assinatura">
+      Com carinho.
+    </div>
+
+  </div>
+
+</div>
+
+
+<svg
+  class="divisor-flor reveal"
+  aria-hidden="true"
+>
+  <use href="#flor-divisor"></use>
+</svg>
+
+
+<!-- FINAL -->
+
+<div class="final reveal">
+
+  <div class="final-titulo">
+    Isso é só o começo ❤️
+  </div>
+
+  <p class="final-texto">
+    Obrigado por fazer parte da minha história, hoje e sempre.
+  </p>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
