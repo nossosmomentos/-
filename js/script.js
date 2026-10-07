@@ -14,6 +14,11 @@ const horas2El = document.getElementById("horas2");
 const minutos2El = document.getElementById("minutos2");
 const segundos2El = document.getElementById("segundos2");
 
+const dias3El = document.getElementById("dias3");
+const horas3El = document.getElementById("horas3");
+const minutos3El = document.getElementById("minutos3");
+const segundos3El = document.getElementById("segundos3");
+
 let fotoAtual = 0;
 
 /* AUTOPLAY MOBILE (começa mudo até o usuário tocar em "começar") */
@@ -101,6 +106,7 @@ capaDisco.addEventListener("click", () => {
 
 const dataInicio = new Date("2026-06-24T00:00:00");
 const dataEuTeAmo = new Date("2026-09-14T23:14:00");
+const dataCemDias = new Date("2026-10-02T00:00:00");
 
 function calcularEExibir(dataAlvo, elDias, elHoras, elMinutos, elSegundos) {
 
@@ -123,6 +129,7 @@ function atualizarContador() {
 
   calcularEExibir(dataInicio, diasEl, horasEl, minutosEl, segundosEl);
   calcularEExibir(dataEuTeAmo, dias2El, horas2El, minutos2El, segundos2El);
+  calcularEExibir(dataCemDias, dias3El, horas3El, minutos3El, segundos3El);
 
 }
 
