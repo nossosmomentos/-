@@ -70,7 +70,8 @@ body{
 /* CRONOMETRO */
 
 #contador,
-#contador2{
+#contador2,
+#contador3{
 
   display:flex;
 
@@ -494,7 +495,8 @@ body{
   }
 
   #contador,
-  #contador2{
+  #contador2,
+  #contador3{
 
   gap:10px;
 
