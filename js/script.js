@@ -2,6 +2,24 @@ const musica = document.getElementById("musica");
 const progresso = document.querySelector(".progresso");
 
 const fotos = document.querySelectorAll(".foto");
+
+/* Gera uma barrinha de progresso para cada foto automaticamente */
+
+const storiesBarrasContainer = document.getElementById("storiesBarras");
+
+fotos.forEach(() => {
+
+  const barra = document.createElement("div");
+  barra.classList.add("story-bar");
+
+  const progressoBarra = document.createElement("div");
+  progressoBarra.classList.add("story-progress");
+
+  barra.appendChild(progressoBarra);
+  storiesBarrasContainer.appendChild(barra);
+
+});
+
 const storyBars = document.querySelectorAll(".story-progress");
 
 const diasEl = document.getElementById("dias");
