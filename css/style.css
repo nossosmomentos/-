@@ -71,7 +71,9 @@ body{
 
 #contador,
 #contador2,
-#contador3{
+#contador3,
+#contadorMeta1,
+#contadorMeta2{
 
   display:flex;
 
@@ -496,7 +498,9 @@ body{
 
   #contador,
   #contador2,
-  #contador3{
+  #contador3,
+  #contadorMeta1,
+  #contadorMeta2{
 
   gap:10px;
 
