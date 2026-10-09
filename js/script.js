@@ -126,6 +126,90 @@ const dataInicio = new Date("2026-06-24T00:00:00");
 const dataEuTeAmo = new Date("2026-09-14T23:14:00");
 const dataCemDias = new Date("2026-10-02T00:00:00");
 
+/* METAS (contagem regressiva) */
+
+const MS_DIA = 24 * 60 * 60 * 1000;
+
+// data em que se completam N dias juntos (contando a partir de dataInicio)
+function dataMetaDias(n) {
+
+  const d = new Date(dataInicio);
+  d.setDate(d.getDate() + n);
+
+  return d;
+
+}
+
+// meta fixa: 1 ano juntos
+const dataUmAno = new Date(dataInicio);
+dataUmAno.setFullYear(dataUmAno.getFullYear() + 1);
+
+// meta que rola: próximo múltiplo de 100 dias que ainda não foi atingido
+function obterProximaMeta() {
+
+  const agora = new Date();
+  let n = 100;
+
+  while (dataMetaDias(n) <= agora) {
+
+    n += 100;
+
+  }
+
+  return { dias: n, data: dataMetaDias(n) };
+
+}
+
+function textoFaltam(dias, alvo) {
+
+  if (dias >= 2) return `Faltam ${dias} dias para ${alvo}`;
+  if (dias === 1) return `Falta 1 dia para ${alvo}`;
+
+  return `Falta menos de 1 dia para ${alvo}`;
+
+}
+
+function exibirRegressivo(dataAlvo, sufixo) {
+
+  const diff = Math.max(0, dataAlvo - new Date());
+
+  document.getElementById("dias" + sufixo).innerText = Math.floor(diff / MS_DIA);
+  document.getElementById("horas" + sufixo).innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  document.getElementById("minutos" + sufixo).innerText = Math.floor((diff / (1000 * 60)) % 60);
+  document.getElementById("segundos" + sufixo).innerText = Math.floor((diff / 1000) % 60);
+
+  return Math.floor(diff / MS_DIA);
+
+}
+
+const metaProximaTexto = document.getElementById("metaProximaTexto");
+const metaAnoTexto = document.getElementById("metaAnoTexto");
+const contadorMeta2 = document.getElementById("contadorMeta2");
+
+function atualizarMetas() {
+
+  // meta que rola (atualiza sozinha quando a atual é atingida)
+  const meta = obterProximaMeta();
+  const diasMeta = exibirRegressivo(meta.data, "Meta1");
+
+  metaProximaTexto.textContent = textoFaltam(diasMeta, `${meta.dias} dias juntos`);
+
+  // meta fixa: 1 ano juntos
+  if (new Date() >= dataUmAno) {
+
+    metaAnoTexto.textContent = "Chegamos a 1 ano juntos! 🎉";
+    contadorMeta2.style.display = "none";
+
+  } else {
+
+    const diasAno = exibirRegressivo(dataUmAno, "Meta2");
+
+    metaAnoTexto.textContent = textoFaltam(diasAno, "1 ano juntos");
+
+  }
+
+}
+
 function calcularEExibir(dataAlvo, elDias, elHoras, elMinutos, elSegundos) {
 
   const agora = new Date();
@@ -148,6 +232,8 @@ function atualizarContador() {
   calcularEExibir(dataInicio, diasEl, horasEl, minutosEl, segundosEl);
   calcularEExibir(dataEuTeAmo, dias2El, horas2El, minutos2El, segundos2El);
   calcularEExibir(dataCemDias, dias3El, horas3El, minutos3El, segundos3El);
+
+  atualizarMetas();
 
 }
 
