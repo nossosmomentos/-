@@ -1,331 +1,1039 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f0c29">
-<title>Nosso Contador ❤️</title>
-
-<!-- PREVIEW AO COMPARTILHAR (WhatsApp, Instagram, etc) -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="Nosso Contador ❤️">
-<meta property="og:description" content="Um cantinho só nosso, com contador, fotos e uma carta especial.">
-<meta property="og:image" content="foto3.jpg">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Nosso Contador ❤️">
-<meta name="twitter:description" content="Um cantinho só nosso, com contador, fotos e uma carta especial.">
-<meta name="twitter:image" content="foto3.jpg">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="css/style.css">
-
-</head>
-
-<body>
-
-<canvas id="estrelas"></canvas>
-
-<svg style="display:none" aria-hidden="true">
-  <symbol id="flor-divisor" viewBox="0 0 400 60" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
-
-    <!-- haste esquerda -->
-    <path d="M200,30 C165,22 130,38 95,30 C75,25 55,32 38,28"/>
-    <!-- folhas haste esquerda -->
-    <ellipse cx="150" cy="24" rx="11" ry="4.5" transform="rotate(-18 150 24)"/>
-    <ellipse cx="118" cy="35" rx="12" ry="5" transform="rotate(16 118 35)"/>
-    <ellipse cx="82" cy="27" rx="10" ry="4" transform="rotate(-12 82 27)"/>
-    <ellipse cx="55" cy="31" rx="8" ry="3.5" transform="rotate(10 55 31)"/>
-    <!-- florzinha esquerda -->
-    <g transform="translate(30,28)">
-      <ellipse rx="7" ry="3.2"/>
-      <ellipse rx="7" ry="3.2" transform="rotate(72)"/>
-      <ellipse rx="7" ry="3.2" transform="rotate(144)"/>
-      <circle r="1.6" fill="currentColor" stroke="none"/>
-    </g>
+const musica = document.getElementById("musica");
+const progresso = document.querySelector(".progresso");
 
-    <!-- haste direita (espelhada) -->
-    <path d="M200,30 C235,22 270,38 305,30 C325,25 345,32 362,28"/>
-    <ellipse cx="250" cy="24" rx="11" ry="4.5" transform="rotate(18 250 24)"/>
-    <ellipse cx="282" cy="35" rx="12" ry="5" transform="rotate(-16 282 35)"/>
-    <ellipse cx="318" cy="27" rx="10" ry="4" transform="rotate(12 318 27)"/>
-    <ellipse cx="345" cy="31" rx="8" ry="3.5" transform="rotate(-10 345 31)"/>
-    <g transform="translate(370,28)">
-      <ellipse rx="7" ry="3.2"/>
-      <ellipse rx="7" ry="3.2" transform="rotate(72)"/>
-      <ellipse rx="7" ry="3.2" transform="rotate(144)"/>
-      <circle r="1.6" fill="currentColor" stroke="none"/>
-    </g>
-
-    <!-- flor central -->
-    <g transform="translate(200,30)">
-      <ellipse rx="15" ry="7"/>
-      <ellipse rx="15" ry="7" transform="rotate(72)"/>
-      <ellipse rx="15" ry="7" transform="rotate(144)"/>
-      <ellipse rx="15" ry="7" transform="rotate(216)"/>
-      <ellipse rx="15" ry="7" transform="rotate(288)"/>
-      <circle r="2.4" fill="currentColor" stroke="none"/>
-    </g>
-
-  </symbol>
-</svg>
+const fotos = document.querySelectorAll(".foto");
 
-<div id="telaAbertura">
-  <div class="abertura-conteudo">
-    <div class="abertura-titulo">Para você ❤️</div>
-    <p class="abertura-sub">Toque para abrir sua surpresa</p>
-    <button id="btnAbrirSite" class="btn-abrir">Toque para começar</button>
-  </div>
-</div>
+/* Gera uma barrinha de progresso para cada foto automaticamente */
 
-<button id="btnMutar" class="btn-mutar" aria-label="Mutar música">🔊</button>
+const storiesBarrasContainer = document.getElementById("storiesBarras");
 
-<h1 class="titulo reveal">Nosso Contador ❤️</h1>
+fotos.forEach(() => {
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+  const barra = document.createElement("div");
+  barra.classList.add("story-bar");
 
-<p class="declaracao" id="texto-amor"></p>
+  const progressoBarra = document.createElement("div");
+  progressoBarra.classList.add("story-progress");
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+  barra.appendChild(progressoBarra);
+  storiesBarrasContainer.appendChild(barra);
 
-<h2 class="marcos-titulo reveal">Desde que nos conhecemos</h2>
+});
 
-<div id="contador">
+const storyBars = document.querySelectorAll(".story-progress");
 
-<div class="bloco reveal">
-<div id="dias" class="numero">0</div>
-<span>Dias</span>
-</div>
+const diasEl = document.getElementById("dias");
+const horasEl = document.getElementById("horas");
+const minutosEl = document.getElementById("minutos");
+const segundosEl = document.getElementById("segundos");
 
-<div class="bloco reveal">
-<div id="horas" class="numero">0</div>
-<span>Horas</span>
-</div>
+const dias2El = document.getElementById("dias2");
+const horas2El = document.getElementById("horas2");
+const minutos2El = document.getElementById("minutos2");
+const segundos2El = document.getElementById("segundos2");
 
-<div class="bloco reveal">
-<div id="minutos" class="numero">0</div>
-<span>Min</span>
-</div>
+const dias3El = document.getElementById("dias3");
+const horas3El = document.getElementById("horas3");
+const minutos3El = document.getElementById("minutos3");
+const segundos3El = document.getElementById("segundos3");
 
-<div class="bloco reveal">
-<div id="segundos" class="numero">0</div>
-<span>Seg</span>
-</div>
+let fotoAtual = 0;
 
-</div>
+/* AUTOPLAY MOBILE (começa mudo até o usuário tocar em "começar") */
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+musica.muted = true;
+musica.play().catch(() => {});
 
-<div class="marcos">
+/* TELA DE ABERTURA */
 
-<h2 class="marcos-titulo reveal">Nossos marcos</h2>
+const telaAbertura = document.getElementById("telaAbertura");
+const btnAbrirSite = document.getElementById("btnAbrirSite");
 
-<div class="marco-item reveal">
-<div class="marco-data">24 de junho de 2026</div>
-<div class="marco-desc">Nos conhecemos</div>
-</div>
+function criarPetalasCaindo(quantidade = 26) {
 
-<div class="marco-item reveal">
-<div class="marco-data">14 de setembro de 2026 </div>
-<div class="marco-desc">Primeiro "eu te amo"</div>
-</div>
+  for (let n = 0; n < quantidade; n++) {
 
-<div class="marco-item reveal">
-<div class="marco-data">2 de outubro de 2026</div>
-<div class="marco-desc">Primeiros 100 dias juntos</div>
-</div>
+    setTimeout(() => {
 
-</div>
+      const petala = document.createElement("div");
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+      petala.classList.add("petala-caindo");
+      petala.innerHTML = "❤️";
 
-<h2 class="marcos-titulo reveal">Desde o primeiro "eu te amo"</h2>
+      petala.style.left = Math.random() * 100 + "vw";
+      petala.style.fontSize = (14 + Math.random() * 14) + "px";
+      petala.style.animationDuration = (3 + Math.random() * 2) + "s";
 
-<div id="contador2">
+      document.body.appendChild(petala);
 
-<div class="bloco reveal">
-<div id="dias2" class="numero">0</div>
-<span>Dias</span>
-</div>
+      setTimeout(() => {
 
-<div class="bloco reveal">
-<div id="horas2" class="numero">0</div>
-<span>Horas</span>
-</div>
+        petala.remove();
 
-<div class="bloco reveal">
-<div id="minutos2" class="numero">0</div>
-<span>Min</span>
-</div>
+      }, 5500);
 
-<div class="bloco reveal">
-<div id="segundos2" class="numero">0</div>
-<span>Seg</span>
-</div>
+    }, n * 80);
 
-</div>
+  }
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+}
 
-<h2 class="marcos-titulo reveal">Desde os primeiros 100 dias juntos</h2>
+btnAbrirSite.addEventListener("click", () => {
 
-<div id="contador3">
+  musica.muted = false;
+  musica.play().catch(() => {});
 
-<div class="bloco reveal">
-<div id="dias3" class="numero">0</div>
-<span>Dias</span>
-</div>
+  criarPetalasCaindo();
 
-<div class="bloco reveal">
-<div id="horas3" class="numero">0</div>
-<span>Horas</span>
-</div>
+  telaAbertura.classList.add("escondida");
 
-<div class="bloco reveal">
-<div id="minutos3" class="numero">0</div>
-<span>Min</span>
-</div>
+});
 
-<div class="bloco reveal">
-<div id="segundos3" class="numero">0</div>
-<span>Seg</span>
-</div>
+/* BOTAO MUTAR */
 
-</div>
+const btnMutar = document.getElementById("btnMutar");
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+btnMutar.addEventListener("click", () => {
 
-<div class="stories reveal" id="storiesBarras"></div>
+  musica.muted = !musica.muted;
+  btnMutar.textContent = musica.muted ? "🔇" : "🔊";
 
-<div class="foto-container reveal">
+});
 
-<!-- Para adicionar uma nova foto: copie uma linha <img> abaixo, troque o "src" e a "data-legenda".
-     A primeira foto da lista precisa ter a classe "foto ativa" (com "ativa"); as demais, só "foto".
-     A barrinha de progresso e a navegação se ajustam sozinhas, não precisa mexer em mais nada. -->
+/* VINIL CLICAVEL (pausa/toca a música) */
 
-<img src="foto.jpg" class="foto ativa" alt="Foto especial" data-legenda="Aquela vez que você usou minha blusa do terceirão">
-<img src="foto2.jpg" class="foto" alt="Foto especial" data-legenda="Minha foto favorita nossa">
-<img src="foto3.jpg" class="foto" alt="Foto especial" data-legenda="A garotinha mais fofinha desse mundo">
-<img src="foto4.jpg" class="foto" alt="Foto especial" data-legenda="Cristo, sempre no centro de tudo, sendo o segundo nó que representa aquilo que nos une">
-<img src="foto5.jpg" class="foto" alt="Foto especial" data-legenda="A primeira flor que escolhi para você, entre tantas que ainda quero oferecer">
-<img src="foto6.jpg" class="foto" alt="Foto especial" data-legenda="A palavra sendo a nossa base">
-<img src="foto7.jpg" class="foto" alt="Foto especial" data-legenda="O homem da sua vida, encontrando paz no seu colo">
-<img src="foto8.jpg" class="foto" alt="Foto especial" data-legenda="Quando estamos juntos, até os instantes mais simples se tornam inesquecíveis">
+const capaDisco = document.querySelector(".capa");
 
-<div class="legenda-foto" id="legendaFoto"></div>
+capaDisco.addEventListener("click", () => {
 
-</div>
+  if (musica.paused) {
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+    musica.play().catch(() => {});
+    capaDisco.classList.remove("pausado");
 
-<div class="player reveal">
+  } else {
 
-<h3>Nossa música 🎵</h3>
+    musica.pause();
+    capaDisco.classList.add("pausado");
 
-<img src="capa.jpg" class="capa" alt="Capa da música">
+  }
 
-<audio id="musica" loop playsinline preload="auto">
-<source src="musica.mp3" type="audio/mp3">
-</audio>
+});
 
-<div class="barra">
-<div class="progresso"></div>
-</div>
+/* CRONOMETRO */
 
-</div>
+const dataInicio = new Date("2026-06-24T00:00:00");
+const dataEuTeAmo = new Date("2026-09-14T23:14:00");
+const dataCemDias = new Date("2026-10-02T00:00:00");
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+/* METAS (contagem regressiva) */
 
-<!-- ===== MODO CARTA ===== -->
+const MS_DIA = 24 * 60 * 60 * 1000;
 
-<div class="envelope-wrap reveal" id="envelope">
-  <div class="carta-dentro"></div>
-  <div class="envelope-flap"></div>
-  <div class="envelope-corpo"></div>
-  <div class="selo">❤️</div>
-  <div class="envelope-dica">toque para abrir</div>
-</div>
+// data em que se completam N dias juntos (contando a partir de dataInicio)
+function dataMetaDias(n) {
 
-<div class="carta-card" id="cartaCard">
-  <div class="carta-papel" id="cartaPapel">
+  const d = new Date(dataInicio);
+  d.setDate(d.getDate() + n);
 
-    <button class="btn-fechar" id="btnFechar">✕</button>
+  return d;
 
-    <div class="carta-titulo">Para você</div>
+}
 
-    <p class="carta-paragrafo">Desde que te conheci, aprendi a contar o tempo de um jeito diferente.</p>
-    <p class="carta-paragrafo">Cada segundo longe de você parece uma eternidade, e cada segundo perto passa rápido demais.</p>
-    <p class="carta-paragrafo">Queria que você soubesse o quanto esse tempo ao seu lado tem valido a pena, e o quanto ainda quero viver ao seu lado.</p>
-    <p class="carta-paragrafo">Obrigado por existir e por deixar eu fazer parte da sua história. 💖</p>
+// meta fixa: 1 ano juntos
+const dataUmAno = new Date(dataInicio);
+dataUmAno.setFullYear(dataUmAno.getFullYear() + 1);
 
-    <div class="carta-assinatura">Com carinho.</div>
+// meta que rola: próximo múltiplo de 100 dias que ainda não foi atingido
+function obterProximaMeta() {
 
-  </div>
-</div>
+  const agora = new Date();
+  let n = 100;
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+  while (dataMetaDias(n) <= agora) {
 
-<!-- ===== ABRA QUANDO... ===== -->
+    n += 100;
 
-<h2 class="marcos-titulo reveal">Abra quando...</h2>
+  }
 
-<div class="mini-envelopes">
+  return { dias: n, data: dataMetaDias(n) };
 
-<div class="mini-envelope reveal" data-mensagem="Se bateu saudade, lembra que eu também sinto sua falta o tempo todo, e que a gente está sempre mais perto do que parece. Só fechar os olhos e pensar em mim, porque eu também estou pensando em você. 💖">
-<div class="mini-selo">❤️</div>
-<div class="mini-label">estiver com saudade</div>
-</div>
+}
 
-<div class="mini-envelope reveal" data-mensagem="Se hoje o dia está difícil, respira fundo e sabia que eu queria poder te abraçar agora. Lembra que isso vai passar, e que eu estou aqui, na torcida por você, sempre. Você é mais forte do que imagina. ❤️">
-<div class="mini-selo">❤️</div>
-<div class="mini-label">estiver triste</div>
-</div>
+function textoFaltam(dias, alvo) {
 
-<div class="mini-envelope reveal" data-mensagem="Lembra que você sempre vai ter uma pessoa meio retardada pra contar, que vai ouvir suas histórias, falar besteira com você e fazer de tudo pra arrancar um sorriso seu. Então, quando estiver triste, lembra que existe alguém aqui que vai fazer o possível pra te fazer rir, mesmo que pra isso precise passar vergonha e falar as maiores besteiras do mundo. Quero ser sempre esse motivo bobo que faz você sorrir. ❤️">
-<div class="mini-selo">❤️</div>
-<div class="mini-label">quiser sorrir</div>
-</div>
+  if (dias >= 2) return `Faltam ${dias} dias para ${alvo}`;
+  if (dias === 1) return `Falta 1 dia para ${alvo}`;
 
-</div>
+  return `Falta menos de 1 dia para ${alvo}`;
 
-<div class="carta-card" id="miniCartaCard">
-  <div class="carta-papel">
+}
 
-    <button class="btn-fechar" id="btnFecharMini">✕</button>
+function exibirRegressivo(dataAlvo, sufixo) {
 
-    <div class="carta-titulo">Para você</div>
+  const diff = Math.max(0, dataAlvo - new Date());
 
-    <p id="miniCartaTexto" style="opacity:1; transform:none;"></p>
+  document.getElementById("dias" + sufixo).innerText = Math.floor(diff / MS_DIA);
+  document.getElementById("horas" + sufixo).innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  document.getElementById("minutos" + sufixo).innerText = Math.floor((diff / (1000 * 60)) % 60);
+  document.getElementById("segundos" + sufixo).innerText = Math.floor((diff / 1000) % 60);
 
-  </div>
-</div>
+  return Math.floor(diff / MS_DIA);
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+}
 
-<h2 class="marcos-titulo reveal">Raspe aqui ❤️</h2>
+const metaProximaTexto = document.getElementById("metaProximaTexto");
+const metaAnoTexto = document.getElementById("metaAnoTexto");
+const contadorMeta2 = document.getElementById("contadorMeta2");
 
-<div class="raspadinha-wrap reveal">
-<p class="raspadinha-texto">Você é a pessoa que eu escolheria em todas as vidas. Te amo mais do que consigo colocar em palavras. 💖</p>
-<canvas id="raspadinhaCanvas" class="raspadinha-canvas"></canvas>
-</div>
+function atualizarMetas() {
 
-<svg class="divisor-flor reveal" aria-hidden="true"><use href="#flor-divisor"></use></svg>
+  // meta que rola (atualiza sozinha quando a atual é atingida)
+  const meta = obterProximaMeta();
+  const diasMeta = exibirRegressivo(meta.data, "Meta1");
 
-<div class="final reveal">
-<div class="final-titulo">Isso é só o começo ❤️</div>
-<p class="final-texto">Obrigado por fazer parte da minha história, hoje e sempre.</p>
+  metaProximaTexto.textContent = textoFaltam(diasMeta, `${meta.dias} dias juntos`);
 
-<button id="btnReplay" class="btn-abrir btn-replay">Viver tudo de novo ❤️</button>
+  // meta fixa: 1 ano juntos
+  if (new Date() >= dataUmAno) {
 
-</div>
+    metaAnoTexto.textContent = "Chegamos a 1 ano juntos! 🎉";
+    contadorMeta2.style.display = "none";
 
-<script src="js/script.js"></script>
+  } else {
 
-</body>
+    const diasAno = exibirRegressivo(dataUmAno, "Meta2");
 
-</html>
+    metaAnoTexto.textContent = textoFaltam(diasAno, "1 ano juntos");
+
+  }
+
+}
+
+function calcularEExibir(dataAlvo, elDias, elHoras, elMinutos, elSegundos) {
+
+  const agora = new Date();
+  const diff = agora - dataAlvo;
+
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diff / (1000 * 60)) % 60);
+  const segundos = Math.floor((diff / 1000) % 60);
+
+  elDias.innerText = dias;
+  elHoras.innerText = horas;
+  elMinutos.innerText = minutos;
+  elSegundos.innerText = segundos;
+
+}
+
+function atualizarContador() {
+
+  calcularEExibir(dataInicio, diasEl, horasEl, minutosEl, segundosEl);
+  calcularEExibir(dataEuTeAmo, dias2El, horas2El, minutos2El, segundos2El);
+  calcularEExibir(dataCemDias, dias3El, horas3El, minutos3El, segundos3El);
+
+  atualizarMetas();
+
+}
+
+atualizarContador();
+setInterval(atualizarContador, 1000);
+
+/* TROCAR FOTO (com direção: 1 = avançar, -1 = voltar) e legenda sincronizada */
+
+const legendaFoto = document.getElementById("legendaFoto");
+
+function atualizarLegenda() {
+
+  legendaFoto.style.opacity = 0;
+
+  setTimeout(() => {
+
+    legendaFoto.textContent = fotos[fotoAtual].dataset.legenda || "";
+    legendaFoto.style.opacity = 1;
+
+  }, 250);
+
+}
+
+// legenda inicial, sem efeito de fade
+legendaFoto.textContent = fotos[fotoAtual].dataset.legenda || "";
+
+function trocarFoto(direcao = 1) {
+
+  fotos[fotoAtual].classList.remove("ativa");
+
+  fotoAtual += direcao;
+
+  if (fotoAtual >= fotos.length) {
+
+    fotoAtual = 0;
+
+  }
+
+  if (fotoAtual < 0) {
+
+    fotoAtual = fotos.length - 1;
+
+  }
+
+  fotos[fotoAtual].classList.add("ativa");
+
+  atualizarLegenda();
+
+}
+
+/* STORIES (pausa ao segurar, navega ao tocar nas laterais, avança sozinho pelo tempo) */
+
+let storyInterval;
+let progressoStory = 0;
+
+function resetarBarras() {
+
+  storyBars.forEach(bar => bar.style.width = "0%");
+
+}
+
+function iniciarIntervalo() {
+
+  clearInterval(storyInterval);
+
+  storyInterval = setInterval(() => {
+
+    progressoStory += 2;
+    storyBars[fotoAtual].style.width = progressoStory + "%";
+
+    if (progressoStory >= 100) {
+
+      irParaProxima();
+
+    }
+
+  }, 100);
+
+}
+
+function irParaProxima() {
+
+  trocarFoto(1);
+  progressoStory = 0;
+  resetarBarras();
+  iniciarIntervalo();
+
+}
+
+function irParaAnterior() {
+
+  trocarFoto(-1);
+  progressoStory = 0;
+  resetarBarras();
+  iniciarIntervalo();
+
+}
+
+function pausarStories() {
+
+  clearInterval(storyInterval);
+
+}
+
+function retomarStories() {
+
+  iniciarIntervalo();
+
+}
+
+iniciarIntervalo();
+
+/* NAVEGAÇÃO POR TOQUE: esquerda volta, direita avança, segurar pausa */
+
+const fotoContainer = document.querySelector(".foto-container");
+
+let pressaoInicioTempo = 0;
+let segurando = false;
+
+fotoContainer.addEventListener("pointerdown", (e) => {
+
+  segurando = true;
+  pressaoInicioTempo = Date.now();
+  pausarStories();
+
+});
+
+fotoContainer.addEventListener("pointerup", (e) => {
+
+  if (!segurando) return;
+
+  segurando = false;
+
+  const duracaoPressao = Date.now() - pressaoInicioTempo;
+  const rect = fotoContainer.getBoundingClientRect();
+  const cliqueX = e.clientX - rect.left;
+  const meio = rect.width / 2;
+
+  if (duracaoPressao < 250) {
+
+    // toque rápido: navega conforme o lado tocado
+    if (cliqueX < meio) {
+      irParaAnterior();
+    } else {
+      irParaProxima();
+    }
+
+  } else {
+
+    // segurou e soltou: só retoma de onde parou
+    retomarStories();
+
+  }
+
+});
+
+fotoContainer.addEventListener("pointerleave", () => {
+
+  if (segurando) {
+
+    segurando = false;
+    retomarStories();
+
+  }
+
+});
+
+/* BARRA MUSICA */
+
+musica.addEventListener("timeupdate", () => {
+
+  const porcentagem = (musica.currentTime / musica.duration) * 100;
+
+  progresso.style.width = porcentagem + "%";
+
+});
+
+/* CORACOES (flutuantes aleatórios) */
+
+setInterval(() => {
+
+  const heart = document.createElement("div");
+
+  heart.classList.add("heart");
+  heart.innerHTML = "❤️";
+
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.top = Math.random() * 100 + "vh";
+
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+
+    heart.remove();
+
+  }, 2000);
+
+}, 700);
+
+/* CORAÇÕES SUBINDO */
+
+setInterval(() => {
+
+  const heart = document.createElement("div");
+
+  heart.classList.add("rising-heart");
+  heart.innerHTML = "❤️";
+
+  heart.style.left = Math.random() * 100 + "vw";
+
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+
+    heart.remove();
+
+  }, 6000);
+
+}, 1200);
+
+/* CANVAS ESTRELAS */
+
+const canvas = document.getElementById("estrelas");
+const ctx = canvas.getContext("2d");
+
+let constelacaoBrilho = 0.15;
+
+function obterPontosConstelacao() {
+
+  const pontos = [];
+  const numPontos = 22;
+  const centroX = canvas.width / 2;
+  const centroY = canvas.height * 0.25;
+  const escala = Math.min(canvas.width, canvas.height) * 0.09;
+
+  for (let n = 0; n < numPontos; n++) {
+
+    const t = (n / numPontos) * Math.PI * 2;
+
+    const xBase = 16 * Math.pow(Math.sin(t), 3);
+    const yBase = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+
+    pontos.push({
+      x: centroX + (xBase * escala) / 16,
+      y: centroY + (yBase * escala) / 16
+    });
+
+  }
+
+  return pontos;
+
+}
+
+function desenharConstelacao() {
+
+  const modoCinema = document.body.classList.contains("modo-cinematico");
+  const alvoBrilho = modoCinema ? 1 : 0.15;
+
+  constelacaoBrilho += (alvoBrilho - constelacaoBrilho) * 0.04;
+
+  const pontos = obterPontosConstelacao();
+
+  // linhas conectando os pontos, formando o contorno do coração
+  ctx.beginPath();
+
+  pontos.forEach((p, idx) => {
+
+    if (idx === 0) {
+      ctx.moveTo(p.x, p.y);
+    } else {
+      ctx.lineTo(p.x, p.y);
+    }
+
+  });
+
+  ctx.closePath();
+  ctx.strokeStyle = `rgba(232,196,160,${constelacaoBrilho * 0.5})`;
+  ctx.lineWidth = 0.6 + constelacaoBrilho * 0.8;
+  ctx.stroke();
+
+  // pontinhos de estrela em cada vértice do coração
+  pontos.forEach(p => {
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 1 + constelacaoBrilho * 1.6, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(232,196,160,${0.3 + constelacaoBrilho * 0.7})`;
+    ctx.fill();
+
+  });
+
+}
+
+function ajustarCanvas() {
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+}
+
+ajustarCanvas();
+window.addEventListener("resize", ajustarCanvas);
+
+/* ESTRELAS */
+
+let estrelas = [];
+
+for (let i = 0; i < 140; i++) {
+
+  estrelas.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    brilho: Math.random(),
+    vel: Math.random() * 0.02
+  });
+
+}
+
+/* ESTRELAS CADENTES */
+
+let estrelasCadentes = [];
+
+function criarEstrelaCadente() {
+
+  estrelasCadentes.push({
+    x: Math.random() * canvas.width,
+    y: 0,
+    len: Math.random() * 80 + 10,
+    vel: Math.random() * 10 + 6
+  });
+
+}
+
+setInterval(criarEstrelaCadente, 4000);
+
+/* DESENHO */
+
+function desenharEstrelas() {
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  estrelas.forEach(e => {
+
+    e.brilho += e.vel;
+
+    if (e.brilho > 1 || e.brilho < 0) {
+      e.vel = -e.vel;
+    }
+
+    ctx.beginPath();
+    ctx.arc(e.x, e.y, e.r * (0.5 + e.brilho), 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+
+  });
+
+  estrelasCadentes.forEach(s => {
+
+    ctx.beginPath();
+    ctx.moveTo(s.x, s.y);
+    ctx.lineTo(s.x - s.len, s.y + s.len);
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    s.x += s.vel;
+    s.y += s.vel;
+
+  });
+
+  // Remove estrelas cadentes que já saíram da tela (sem bug de splice em forEach)
+  estrelasCadentes = estrelasCadentes.filter(s => s.y <= canvas.height);
+
+  desenharConstelacao();
+
+  requestAnimationFrame(desenharEstrelas);
+
+}
+
+desenharEstrelas();
+
+/* PARALLAX CELULAR (com permissão para iOS 13+) */
+
+function handlerParallax(event) {
+
+  const x = event.gamma / 30;
+  const y = event.beta / 60;
+
+  document.querySelector(".foto-container").style.transform =
+    `translate(${x * 10}px, ${y * 10}px)`;
+
+}
+
+function pedirPermissaoParallax() {
+
+  if (typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function") {
+
+    DeviceOrientationEvent.requestPermission().then(state => {
+
+      if (state === "granted") {
+        window.addEventListener("deviceorientation", handlerParallax);
+      }
+
+    }).catch(() => {});
+
+  } else {
+
+    window.addEventListener("deviceorientation", handlerParallax);
+
+  }
+
+  document.removeEventListener("click", pedirPermissaoParallax);
+  document.removeEventListener("touchstart", pedirPermissaoParallax);
+
+}
+
+document.addEventListener("click", pedirPermissaoParallax);
+document.addEventListener("touchstart", pedirPermissaoParallax);
+
+/* TEXTO LETRA POR LETRA (corrigido para não cortar emojis) */
+
+const texto = 'Você é a peça que me faltava, o "au" do meu "tista", e eu amo como você é perfeita do seu jeito e como tudo fica mais leve e melhor com você por perto. 💖';
+const elementoTexto = document.getElementById("texto-amor");
+const caracteresTexto = Array.from(texto);
+
+let i = 0;
+
+function escreverTexto() {
+
+  if (i < caracteresTexto.length) {
+
+    elementoTexto.innerHTML += caracteresTexto[i];
+
+    i++;
+
+    setTimeout(escreverTexto, 50);
+
+  }
+
+}
+
+window.addEventListener("load", () => {
+
+  setTimeout(escreverTexto, 1500);
+
+});
+
+/* BRILHO AO MEXER O DEDO */
+
+document.addEventListener("touchmove", (e) => {
+
+  const sparkle = document.createElement("div");
+
+  sparkle.classList.add("sparkle");
+
+  sparkle.style.left = e.touches[0].clientX + "px";
+  sparkle.style.top = e.touches[0].clientY + "px";
+
+  document.body.appendChild(sparkle);
+
+  setTimeout(() => {
+
+    sparkle.remove();
+
+  }, 800);
+
+});
+
+/* ===== MODO CARTA ===== */
+
+function tocarSomAbrirEnvelope() {
+
+  try {
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.3);
+
+    gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.5);
+
+  } catch (e) {}
+
+}
+
+const envelope = document.getElementById("envelope");
+const cartaCard = document.getElementById("cartaCard");
+const cartaPapel = document.getElementById("cartaPapel");
+const btnFechar = document.getElementById("btnFechar");
+const paragrafosCarta = document.querySelectorAll(".carta-paragrafo");
+
+envelope.addEventListener("click", () => {
+
+  envelope.classList.add("aberto");
+
+  tocarSomAbrirEnvelope();
+
+  // reseta a rolagem e força o observer a recalcular (corrige a carta "em branco" ao reabrir)
+  cartaPapel.scrollTop = 0;
+
+  paragrafosCarta.forEach(p => {
+
+    p.classList.remove("visivel");
+    observerCarta.unobserve(p);
+    observerCarta.observe(p);
+
+  });
+
+  setTimeout(() => {
+
+    envelope.classList.add("escondido");
+    cartaCard.classList.add("visivel");
+
+  }, 700);
+
+});
+
+const observerCarta = new IntersectionObserver((entradas) => {
+
+  entradas.forEach(entrada => {
+
+    if (entrada.isIntersecting) {
+      entrada.target.classList.add("visivel");
+    }
+
+  });
+
+}, {
+  root: cartaPapel,
+  threshold: 0.3
+});
+
+paragrafosCarta.forEach(p => observerCarta.observe(p));
+
+btnFechar.addEventListener("click", () => {
+
+  cartaCard.classList.remove("visivel");
+
+  setTimeout(() => {
+
+    envelope.classList.remove("aberto", "escondido");
+    paragrafosCarta.forEach(p => p.classList.remove("visivel"));
+
+  }, 600);
+
+});
+
+/* ===== MODO CINEMATOGRAFICO (ao chegar na carta, escurece as estrelas e destaca o envelope) ===== */
+
+const observerCinema = new IntersectionObserver((entradas) => {
+
+  entradas.forEach(entrada => {
+
+    if (entrada.isIntersecting) {
+
+      document.body.classList.add("modo-cinematico");
+      envelope.classList.add("destaque-cinema");
+
+    } else {
+
+      document.body.classList.remove("modo-cinematico");
+      envelope.classList.remove("destaque-cinema");
+
+    }
+
+  });
+
+}, {
+  threshold: 0.45
+});
+
+observerCinema.observe(envelope);
+
+/* ===== ABRA QUANDO... (mini envelopes) ===== */
+
+const miniEnvelopes = document.querySelectorAll(".mini-envelope");
+const miniCartaCard = document.getElementById("miniCartaCard");
+const miniCartaTexto = document.getElementById("miniCartaTexto");
+const btnFecharMini = document.getElementById("btnFecharMini");
+
+miniEnvelopes.forEach(env => {
+
+  env.addEventListener("click", () => {
+
+    miniCartaTexto.textContent = env.dataset.mensagem || "";
+
+    tocarSomAbrirEnvelope();
+
+    miniCartaCard.classList.add("visivel");
+
+  });
+
+});
+
+btnFecharMini.addEventListener("click", () => {
+
+  miniCartaCard.classList.remove("visivel");
+
+});
+
+/* ===== REVEAL AO SCROLLAR (site inteiro) ===== */
+
+const elementosReveal = document.querySelectorAll(".reveal");
+
+const observerScroll = new IntersectionObserver((entradas) => {
+
+  entradas.forEach(entrada => {
+
+    if (entrada.isIntersecting) {
+
+      entrada.target.classList.add("visivel");
+      observerScroll.unobserve(entrada.target);
+
+    }
+
+  });
+
+}, {
+  threshold: 0.2
+});
+
+elementosReveal.forEach(el => observerScroll.observe(el));
+
+/* ===== REPLAY (voltar ao começo e reiniciar as animações) ===== */
+
+const btnReplay = document.getElementById("btnReplay");
+
+btnReplay.addEventListener("click", () => {
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // reinicia o reveal de todos os elementos
+  elementosReveal.forEach(el => {
+
+    el.classList.remove("visivel");
+    observerScroll.observe(el);
+
+  });
+
+  // reinicia o envelope principal e a carta
+  envelope.classList.remove("aberto", "escondido");
+  cartaCard.classList.remove("visivel");
+  paragrafosCarta.forEach(p => p.classList.remove("visivel"));
+
+  // reinicia os mini envelopes
+  miniCartaCard.classList.remove("visivel");
+
+  // volta pra primeira foto e reinicia as stories
+  fotos[fotoAtual].classList.remove("ativa");
+  fotoAtual = 0;
+  fotos[fotoAtual].classList.add("ativa");
+  atualizarLegenda();
+  progressoStory = 0;
+  resetarBarras();
+  iniciarIntervalo();
+
+  // dispara os corações de novo, de brinde
+  criarPetalasCaindo(16);
+
+  // reinicia a raspadinha
+  inicializarRaspadinha();
+
+});
+
+/* ===== RASPADINHA DIGITAL ===== */
+
+const raspadinhaCanvas = document.getElementById("raspadinhaCanvas");
+const raspadinhaCtx = raspadinhaCanvas.getContext("2d");
+
+let raspadinhaRevelada = false;
+let raspando = false;
+let contadorRaspadas = 0;
+
+function inicializarRaspadinha() {
+
+  const rect = raspadinhaCanvas.parentElement.getBoundingClientRect();
+
+  raspadinhaCanvas.width = rect.width;
+  raspadinhaCanvas.height = rect.height;
+
+  raspadinhaCanvas.style.opacity = "1";
+  raspadinhaCanvas.style.display = "block";
+  raspadinhaRevelada = false;
+
+  raspadinhaCtx.globalCompositeOperation = "source-over";
+  raspadinhaCtx.fillStyle = "#9a9690";
+  raspadinhaCtx.fillRect(0, 0, raspadinhaCanvas.width, raspadinhaCanvas.height);
+
+  raspadinhaCtx.fillStyle = "#f2e9dc";
+  raspadinhaCtx.font = "16px Georgia, serif";
+  raspadinhaCtx.textAlign = "center";
+  raspadinhaCtx.textBaseline = "middle";
+  raspadinhaCtx.fillText("Raspe aqui ❤️", raspadinhaCanvas.width / 2, raspadinhaCanvas.height / 2);
+
+}
+
+inicializarRaspadinha();
+window.addEventListener("resize", inicializarRaspadinha);
+
+function posicaoRaspadinha(e) {
+
+  const rect = raspadinhaCanvas.getBoundingClientRect();
+
+  return {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top
+  };
+
+}
+
+function raspar(x, y) {
+
+  raspadinhaCtx.globalCompositeOperation = "destination-out";
+  raspadinhaCtx.beginPath();
+  raspadinhaCtx.arc(x, y, 22, 0, Math.PI * 2);
+  raspadinhaCtx.fill();
+
+}
+
+function verificarProgressoRaspadinha() {
+
+  if (raspadinhaRevelada) return;
+
+  const dados = raspadinhaCtx.getImageData(0, 0, raspadinhaCanvas.width, raspadinhaCanvas.height).data;
+
+  let apagados = 0;
+  let amostras = 0;
+
+  for (let p = 3; p < dados.length; p += 4 * 15) {
+
+    amostras++;
+
+    if (dados[p] < 40) {
+      apagados++;
+    }
+
+  }
+
+  if (amostras > 0 && (apagados / amostras) > 0.5) {
+
+    raspadinhaRevelada = true;
+
+    raspadinhaCanvas.style.transition = "opacity 0.6s ease";
+    raspadinhaCanvas.style.opacity = "0";
+
+    setTimeout(() => {
+
+      raspadinhaCanvas.style.display = "none";
+
+    }, 650);
+
+  }
+
+}
+
+raspadinhaCanvas.addEventListener("pointerdown", (e) => {
+
+  raspando = true;
+
+  const pos = posicaoRaspadinha(e);
+  raspar(pos.x, pos.y);
+
+});
+
+raspadinhaCanvas.addEventListener("pointermove", (e) => {
+
+  if (!raspando) return;
+
+  const pos = posicaoRaspadinha(e);
+  raspar(pos.x, pos.y);
+
+  contadorRaspadas++;
+
+  if (contadorRaspadas % 8 === 0) {
+
+    verificarProgressoRaspadinha();
+
+  }
+
+});
+
+window.addEventListener("pointerup", () => {
+
+  if (raspando) {
+
+    raspando = false;
+    verificarProgressoRaspadinha();
+
+  }
+
+});
