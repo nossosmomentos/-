@@ -1063,3 +1063,130 @@ body.modo-cinematico::after{
   touch-action:none;
   user-select:none;
 }
+
+/* ===== MESVERSARIO ===== */
+
+.mesversario{
+  display:none;
+  width:90%;
+  max-width:420px;
+  margin:10px auto 0;
+  padding:12px 20px;
+  border:1px solid var(--dourado-linha);
+  border-radius:30px;
+  background:rgba(232,196,160,0.1);
+  color:var(--dourado);
+  font-family:'Great Vibes', cursive;
+  font-size:24px;
+  animation:aparecerMesversario 1s ease;
+}
+
+@keyframes aparecerMesversario{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:none; }
+}
+
+/* ===== MESES E DIAS ===== */
+
+.meses-dias{
+  font-family:'Great Vibes', cursive;
+  font-size:28px;
+  color:var(--dourado);
+  margin:-10px 0 10px;
+}
+
+/* ===== CAPSULA DO TEMPO ===== */
+
+.capsula{
+  width:90%;
+  max-width:300px;
+  margin:20px auto;
+  padding:26px 20px;
+  background:rgba(232,196,160,0.08);
+  border:1px solid rgba(232,196,160,0.3);
+  border-radius:14px;
+  cursor:pointer;
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+}
+
+.capsula-icone{
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.capsula-status{
+  font-size:15px;
+  color:var(--texto);
+  opacity:0.9;
+}
+
+.capsula.destravada{
+  border-color:var(--dourado);
+  box-shadow:0 0 30px rgba(232,196,160,0.25);
+}
+
+.capsula.balancar{
+  animation:balancarCapsula 0.5s ease;
+}
+
+@keyframes balancarCapsula{
+  0%,100%{ transform:translateX(0); }
+  20%{ transform:translateX(-8px); }
+  40%{ transform:translateX(8px); }
+  60%{ transform:translateX(-5px); }
+  80%{ transform:translateX(5px); }
+}
+
+/* ===== CARTA DO INICIO ===== */
+
+.carta-inicial{
+  width:92%;
+  max-width:560px;
+  margin:40px auto 10px;
+  padding:40px 30px;
+  background:#fffaf0;
+  color:#2b2b2b;
+  border-radius:8px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  text-align:left;
+}
+
+.carta-ini-titulo{
+  font-family:'Great Vibes', cursive;
+  font-size:36px;
+  line-height:1.2;
+  color:var(--vinho);
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.carta-ini-paragrafo{
+  font-size:17px;
+  line-height:1.8;
+  margin-bottom:20px;
+}
+
+.carta-ini-assinatura{
+  text-align:right;
+  font-family:'Great Vibes', cursive;
+  font-size:28px;
+  color:var(--vinho);
+  margin-top:10px;
+}
+
+@media (max-width:600px){
+
+  .carta-inicial{
+    padding:30px 20px;
+  }
+
+  .carta-ini-titulo{
+    font-size:30px;
+  }
+
+  .carta-ini-paragrafo{
+    font-size:16px;
+  }
+
+}
