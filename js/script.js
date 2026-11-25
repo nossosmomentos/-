@@ -210,6 +210,114 @@ function atualizarMetas() {
 
 }
 
+/* MESES E DIAS + MESVERSARIO */
+
+const mesesDiasEl = document.getElementById("mesesDias");
+const mesversarioEl = document.getElementById("mesversario");
+
+function pluralizar(n, singular, plural) {
+
+  return `${n} ${n === 1 ? singular : plural}`;
+
+}
+
+// meses completos desde a data + dias que passaram depois do último mês completo
+function calcularMesesEDias(desde, agora) {
+
+  let meses = (agora.getFullYear() - desde.getFullYear()) * 12 + (agora.getMonth() - desde.getMonth());
+
+  let ancora = new Date(desde);
+  ancora.setMonth(desde.getMonth() + meses);
+
+  if (ancora > agora) {
+
+    meses--;
+
+    ancora = new Date(desde);
+    ancora.setMonth(desde.getMonth() + meses);
+
+  }
+
+  const dias = Math.floor((agora - ancora) / MS_DIA);
+
+  return { meses, dias };
+
+}
+
+function atualizarMesesEDias() {
+
+  const { meses, dias } = calcularMesesEDias(dataInicio, new Date());
+
+  const partes = [];
+
+  if (meses > 0) partes.push(pluralizar(meses, "mês", "meses"));
+
+  partes.push(pluralizar(dias, "dia", "dias"));
+
+  mesesDiasEl.textContent = "Ou seja, " + partes.join(" e ");
+
+}
+
+// aparece só no dia do mês em que se conheceram (dia 24)
+function atualizarMesversario() {
+
+  const agora = new Date();
+  const { meses } = calcularMesesEDias(dataInicio, agora);
+
+  if (agora.getDate() !== dataInicio.getDate() || meses < 1) {
+
+    mesversarioEl.style.display = "none";
+    return;
+
+  }
+
+  const tempo = meses % 12 === 0
+    ? pluralizar(meses / 12, "ano", "anos")
+    : pluralizar(meses, "mês", "meses");
+
+  mesversarioEl.textContent = `Hoje fazemos ${tempo} de "nos conhecemos" 💖`;
+  mesversarioEl.style.display = "block";
+
+}
+
+/* CAPSULA DO TEMPO */
+
+const dataCapsula = dataUmAno; // data em que a cápsula destrava (troque se quiser outra)
+
+const capsulaEl = document.getElementById("capsula");
+const capsulaIconeEl = document.getElementById("capsulaIcone");
+const capsulaStatusEl = document.getElementById("capsulaStatus");
+
+function capsulaDestravada() {
+
+  return new Date() >= dataCapsula;
+
+}
+
+function atualizarCapsula() {
+
+  if (capsulaDestravada()) {
+
+    capsulaEl.classList.add("destravada");
+    capsulaIconeEl.textContent = "🔓";
+    capsulaStatusEl.textContent = "Chegou o dia! Toque para abrir";
+
+    return;
+
+  }
+
+  const dias = Math.floor((dataCapsula - new Date()) / MS_DIA);
+
+  if (dias >= 2) {
+    capsulaStatusEl.textContent = `Disponível em ${dias} dias`;
+  } else if (dias === 1) {
+    capsulaStatusEl.textContent = "Disponível em 1 dia";
+  } else {
+    capsulaStatusEl.textContent = "Disponível em menos de 1 dia";
+  }
+
+}
+
 function calcularEExibir(dataAlvo, elDias, elHoras, elMinutos, elSegundos) {
 
   const agora = new Date();
@@ -234,6 +342,9 @@ function atualizarContador() {
   calcularEExibir(dataCemDias, dias3El, horas3El, minutos3El, segundos3El);
 
   atualizarMetas();
+  atualizarMesesEDias();
+  atualizarMesversario();
+  atualizarCapsula();
 
 }
 
@@ -843,6 +954,29 @@ miniEnvelopes.forEach(env => {
 btnFecharMini.addEventListener("click", () => {
 
   miniCartaCard.classList.remove("visivel");
+
+});
+
+/* CAPSULA DO TEMPO: só abre depois da data */
+
+capsulaEl.addEventListener("click", () => {
+
+  if (!capsulaDestravada()) {
+
+    // ainda trancada: só balança
+    capsulaEl.classList.remove("balancar");
+    void capsulaEl.offsetWidth;
+    capsulaEl.classList.add("balancar");
+
+    return;
+
+  }
+
+  miniCartaTexto.textContent = capsulaEl.dataset.mensagem || "";
+
+  tocarSomAbrirEnvelope();
+
+  miniCartaCard.classList.add("visivel");
 
 });
 
